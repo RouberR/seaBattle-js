@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rouber</title>
+    <link rel="stylesheet" href="./src/style.css"/>
+  </head>
+  <body>
+    <div class="app">
+      <div class="app-header">
+        <h1 class="app-title">Морской бой</h1>
+      </div>
+
+      <div class="app-body">
+        <div data-side="player"></div>
+        <div class="app-menu">
+          <div class="app-action" data-computer="preparation">
+            <button class="app-action">играть</button>
+          </div>
+          <div class="app-action" data-computer="manually">
+            <button class="app-action">Расставить корабли вручую</button>
+          </div>
+          <div class="app-action" data-computer="random">
+            <button class="app-action">Раставить корабли случайно</button>
+          </div>
+          <!-- <div class="app-action" data-computer="size">
+            <h4>Размер поля</h4>
+            <input class="imput-size" maxlength="2" placeholder="x" id="buttonCountPlus" value="10" onchange="value"/>
+            <input class="imput-size" maxlength="2" placeholder="y" data-side="y"></input>
+            <button type="button" value="Кнопка">Изменить размер</button>
+          </div> -->
+        </div>
+        <div data-side="opponent"></div>
+      </div>
+
+    </div>
+    <script src="src/additional.js"></script>
+    <script src="src/Mouse.js"></script>
+
+    <script src="src/App.js"></script>
+    <script src="src/Scene.js"></script>
+    <script src="src/Scene/PreparationScene.js"></script>
+
+    <script src="src/Battlefield.js"></script>
+    <script src="src/BattlefieldView.js"></script>
+
+    <script src="src/Ship.js"></script>
+    <script src="src/ShipView.js"></script>
+
+    <script src="src/script.js"></script>
+</html>
