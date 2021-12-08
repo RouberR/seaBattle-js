@@ -77,4 +77,8 @@ class BattlefieldView extends Battlefield {
 
     return true;
   }
+
+  isUnder ( point ) {
+    return this.isUnderPoint(point, this.root)
+  }
 }

@@ -22,4 +22,13 @@ class ShipView extends Ship {
     this.div.classList.add(`ship-${this.direction}-${this.size}`);
     return true;
   }
+
+  toggleDirection () {
+    const newDirection = this.direction === "row" ? "column" : "row"
+    this.setDirection(newDirection)
+  }
+
+  isUnder(point){
+    return isUnderPoint(point, this.div)
+  }
 }
