@@ -3,7 +3,7 @@ class Scene {
   app = null;
 
   constructor(name, app) {
-    Object.assign(this, name, app);
+    Object.assign(this, { name, app});
   }
 
   init() {}

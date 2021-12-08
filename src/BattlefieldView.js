@@ -5,10 +5,9 @@ class BattlefieldView extends Battlefield {
   polygon = null;
 
   cells = [];
-  
+
   constructor() {
     super();
-
 
     const root = document.createElement("div");
     root.classList.add("battlefield");
@@ -51,15 +50,31 @@ class BattlefieldView extends Battlefield {
       const cell = this.cells[0][x];
       const marker = document.createElement("div");
       marker.classList.add("marker", "marker-column");
-      marker.textContent = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЯ'[x]
+      marker.textContent = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЯ"[x];
       cell.append(marker);
     }
-    for (let y = 0; y < 10; y++){
-        const cell = this.cells[y][0];
-        const market = document.createElement("div")
-        market.classList.add("marker", "marker-row")
-        market.textContent =  y + 1
-        cell.append(market)
+    for (let y = 0; y < 10; y++) {
+      const cell = this.cells[y][0];
+      const market = document.createElement("div");
+      market.classList.add("marker", "marker-row");
+      market.textContent = y + 1;
+      cell.append(market);
     }
+  }
+
+  addShip(ship) {
+    if (!super.addShip(ship)) {
+      return false;
+    }
+
+    this.dock.append(ship.div);
+
+    if (ship.placed) {
+    } else {
+      ship.div.style.left = `${ship.startX}px`;
+      ship.div.style.top = `${ship.startY}px`;
+    }
+
+    return true;
   }
 }

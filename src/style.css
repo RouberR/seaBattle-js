@@ -75,8 +75,8 @@ body{
     top: 0;
     left: 0;
     margin: 3px;
-    border: 3px solid blue;
-    background: grey;
+    border: 3px solid #72747580;
+    background: #4090D0;
     width: 32px;
     height: 32px;
 }

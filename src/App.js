@@ -20,7 +20,7 @@ class App {
     }
 
     for (const scene of Object.values(this.scenes)) {
-      scene.init;
+      scene.init();
     }
     requestAnimationFrame(() => this.tick());
   }
