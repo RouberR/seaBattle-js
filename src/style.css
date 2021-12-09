@@ -1,125 +1,186 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-body{
-    width: 100vw;
-    height: 100vh;
+body {
+  width: 100vw;
+  height: 100vh;
 }
 
 .app {
-    width: 100%;
-    margin: 0 auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .app-header {
-    text-align: center;
-    padding: 30px;
+  text-align: center;
+  padding: 30px;
 }
 
 .app-body {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.battlefield{
-    position:relative;
+.battlefield {
+  position: relative;
 }
 
 .battlefield-table {
-    /* border-collapse: collapse; */
-    border-spacing: 0;
-    background: #1BD0E770;
+  /* border-collapse: collapse; */
+  border-spacing: 0;
+  background: #1bd0e770;
 }
 
 .battlefield-item {
-    position: relative;
-    width: 32px;
-    height: 32px;
-    border: 1px solid #08417160;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #08417160;
 }
 
-.imput-size{
-    width: 32px;
-    height: 32px;
-    text-align: center;
-    margin-left: 30px;
+.imput-size {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  margin-left: 30px;
 }
 
 .marker {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
-
-.marker-row{
-    left: -35px
+.marker-row {
+  left: -35px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;  
 }
 
-.marker-column{
-    top: -35px;
+.marker-column {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;  
+  top: -35px;
 }
 
-.ship{
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 3px;
-    border: 3px solid #72747580;
-    background: #4090D0;
-    width: 32px;
-    height: 32px;
+.ship {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 3px;
+  border: 3px solid #72747580;
+  background: #4090d0;
+  width: 32px;
+  height: 32px;
 }
 
-.ship-row-1{
-
+.ship-row-1 {
 }
 
-.ship-row-2{
-    width: 65px;
+.ship-row-2 {
+  width: 65px;
 }
 
-.ship-row-3{
-    width: 98px;
+.ship-row-3 {
+  width: 98px;
 }
 
-.ship-row-4{
-    width: 131px;
+.ship-row-4 {
+  width: 131px;
 }
 
-.ship-column-1{
+.ship-column-1 {
 }
 
-.ship-column-2{
-    height: 65px;
+.ship-column-2 {
+  height: 65px;
 }
 
-.ship-column-3{
-    height: 98px;
+.ship-column-3 {
+  height: 98px;
 }
 
-.ship-column-4{
-    height: 131px;
+.ship-column-4 {
+  height: 131px;
 }
 
-.app-actions{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.app-actions {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .app-action {
-    padding: 10px;
+  padding: 10px;
+  width: 210px;
 }
 
+.shot {
+  width: 32;
+  height: 32px;
+  text-align: center;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.shot-missed {
+  color: gray;
+}
+
+.shot-wounded {
+  background: bisque;
+  z-index: 1;
+}
+
+.shot-wounded::after {
+  content: "";
+  width: calc(32px * 1.3);
+  height: calc(32px * 1.3);
+  border-top: 2px solid red;
+  position: absolute;
+  z-index: -1;
+  transform: rotate(45deg);
+  top: 9px;
+  left: -20px
+    '
+}
+
+.shot-wounded::before{
+    content: "";
+    width: calc(32px * 1.3);
+    height: calc(32px * 1.3);
+    border-top: 2px solid red;
+    position: absolute;
+    z-index: -1;
+    transform: rotate(45deg);
+    top: 9px;
+    left: 9px;
+}
+
+.shot-killed {
+  margin: -2px;
+  border: 2px solid red;
+}
+
+.hidden {
+  display: none;
+}

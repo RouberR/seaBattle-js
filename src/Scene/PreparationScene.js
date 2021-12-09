@@ -17,7 +17,6 @@ class PreparationScene extends Scene {
     draggedOffsetX = 0
     draggedOffsety = 0
   init() {
-      console.log("init")
       const { player } = this.app
       for (const {size, direction, startX, startY} of shipDatas) {
           const ship = new ShipView(size, direction, startX, startY)
@@ -25,7 +24,11 @@ class PreparationScene extends Scene {
       }
   }
   start() {
-      console.log("start")
+      const { player } = this.app
+    player.ships[0].x = 1;
+    player.ships[0].y = 1;
+      console.log(player.matrix)
+     
   }
   update() {
       const { mouse, player} = this.app
@@ -50,6 +53,7 @@ class PreparationScene extends Scene {
         }
         //отпускаем
         if(!mouse.left && this.draggedShip){
+            const ship = this.draggedShip
             this.draggedShip = null
         }
 
