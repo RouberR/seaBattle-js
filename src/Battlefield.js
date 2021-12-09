@@ -78,7 +78,6 @@ class Battlefield {
     this.ships.push(ship);
 
     if (this.inField(x, y)){
-      const { x, y } = ship;
       const dx = ship.direction === "row";
       const dy = ship.direction === "column";
 
@@ -88,12 +87,12 @@ class Battlefield {
         const cx = x + dx * i;
         const cy = y + dy * i;
 
-        if(!this.inField(x, y)){
+        if(!this.inField(cx, cy)){
           placed = false
           break;
         }
 
-        const item = matrix[cy][cx];
+        const item = this.matrix[cy][cx];
         if(!item.free){
           placed = false
           break;
@@ -114,6 +113,9 @@ class Battlefield {
     }
     const index = this.ships.indexOf(ship);
     this.ships.splice(index, 1);
+
+    ship.x = null
+    ship.y = null
     this.#changed = true
     return true;
   }
