@@ -15,29 +15,50 @@ class PreparationScene extends Scene {
   draggedShip = null;
   draggedOffsetX = 0;
   draggedOffsety = 0;
+
+  removeEventListeners = [];
+
   init() {
+    // this.randomize = this.randomize.bind(this)
+    // this.manually = this.manually.bind(this)
 
-
-    this.randomize = this.randomize.bind(this)
-    this.manually = this.manually.bind(this)
     this.manually();
   }
   start() {
-    
-      document.querySelectorAll(".app-actions").forEach((element) => element.classList.add("hidden"))
+    this.removeEventListeners = [];
+    document
+      .querySelectorAll(".app-actions")
+      .forEach((element) => element.classList.add("hidden"));
 
-      document.querySelector('[data-scene="preparation"]').classList.remove('hidden')
+    document
+      .querySelector('[data-scene="preparation"]')
+      .classList.remove("hidden");
 
-     const randomizeButton = document.querySelector('[data-active="randomize"]')
-     randomizeButton.addEventListener('click',  this.randomize)
+    const randomizeButton = document.querySelector('[data-action="randomize"]');
+    const manuallyButton = document.querySelector('[data-action="manually"]');
+    const startButton = document.querySelector('[data-computer="play"]');
 
-     const manuallyButton = document.querySelector('[data-action="manually"]')
-     manuallyButton.addEventListener('click',  this.manually)
+    this.removeEventListeners.push(
+      addEventListener(randomizeButton, "click", () => this.randomize())
+    );
+    this.removeEventListeners.push(
+      addEventListener(manuallyButton, "click", () => this.manually())
+    );
+    this.removeEventListeners.push(
+      addEventListener(startButton, "click", () => this.startComputer("play"))
+    );
+    //  startButton.addEventListener("click", () => console.log("click play"))
   }
 
-  stop () {
-    const randomizeButton = document.querySelector('[data-active="randomize"]')
-    randomizeButton.removeEventListener('click',  this.randomize)
+  stop() {
+    // const randomizeButton = document.querySelector('[data-action="randomize"]')
+    // randomizeButton.removeEventListener('click',  this.randomize)
+
+    for (const removeEventListener of this.removeEventListeners) {
+      removeEventListener();
+    }
+
+    this.removeEventListeners = [];
   }
 
   update() {
@@ -51,6 +72,9 @@ class PreparationScene extends Scene {
         this.draggedShip = ship;
         this.draggedOffsetX = mouse.x - shipRect.left;
         this.draggedOffsetY = mouse.y - shipRect.top;
+
+        ship.x = null;
+        ship.y = null;
       }
     }
     //перетаскивание
@@ -77,16 +101,16 @@ class PreparationScene extends Scene {
         .flat()
         .find((cell) => isUnderPoint(point, cell));
 
-        if (cell) {
-            const x = parseInt(cell.dataset.x)
-            const y = parseInt(cell.dataset.y)
+      if (cell) {
+        const x = parseInt(cell.dataset.x);
+        const y = parseInt(cell.dataset.y);
 
-            player.removeShip(ship)
-            player.addShip(ship, x, y)
-        } else {
-            player.removeShip(ship)
-            player.addShip(ship)
-        }
+        player.removeShip(ship);
+        player.addShip(ship, x, y);
+      } else {
+        player.removeShip(ship);
+        player.addShip(ship);
+      }
     }
 
     //вращение
@@ -94,23 +118,26 @@ class PreparationScene extends Scene {
       this.draggedShip.toggleDirection();
     }
 
-    if (player.complite){
-      
+    //visibility buttons
+    if (player.complete) {
+      document.querySelector('[data-computer="play"]').disabled = false;
+    } else {
+      document.querySelector('[data-computer="play"]').disabled = true;
     }
   }
   randomize() {
     const { player } = this.app;
-    player.randomize(ShipView)
+    player.randomize(ShipView);
 
-    for (let i = 0; i < 10; i++){
-      const ship = player.ships[i]
+    for (let i = 0; i < 10; i++) {
+      const ship = player.ships[i];
 
-      ship.startX = shipDatas[i].startX
-      ship.startY = shipDatas[i].startY
+      ship.startX = shipDatas[i].startX;
+      ship.startY = shipDatas[i].startY;
     }
   }
 
-  manually(){
+  manually() {
     const { player } = this.app;
 
     player.removeAllShips();
@@ -119,5 +146,10 @@ class PreparationScene extends Scene {
       const ship = new ShipView(size, direction, startX, startY);
       player.addShip(ship);
     }
+  }
+
+  startComputer(start) {
+    console.log(start)
+    this.app.start("computer");
   }
 }

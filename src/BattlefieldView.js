@@ -48,14 +48,14 @@ class BattlefieldView extends Battlefield {
 
     for (let x = 0; x < 10; x++) {
       const cell = this.cells[0][x];
-      const marker = document.createElement("div");
+      const marker = document.createElement("p");
       marker.classList.add("marker", "marker-column");
       marker.textContent = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЯ"[x];
       cell.append(marker);
     }
     for (let y = 0; y < 10; y++) {
       const cell = this.cells[y][0];
-      const market = document.createElement("div");
+      const market = document.createElement("p");
       market.classList.add("marker", "marker-row");
       market.textContent = y + 1;
       cell.append(market);

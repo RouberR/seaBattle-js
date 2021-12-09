@@ -41,7 +41,7 @@ class App {
       return false;
     }
     if (this.activeScene) {
-      this.activeScene.stope();
+      this.activeScene.stop();
     }
     const scene = this.scenes[sceneName];
     this.activeScene = scene;
