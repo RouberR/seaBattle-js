@@ -40,6 +40,7 @@ body {
   width: 32px;
   height: 32px;
   border: 1px solid #08417160;
+  border-right: 2px solid #08417160;
 }
 
 .imput-size {
@@ -102,7 +103,7 @@ body {
 }
 
 .ship-row-4 {
-  width: 131px;
+  width: 135px;
 }
 
 .ship-column-1 {
@@ -124,7 +125,8 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  margin: 0px 30px;
 }
 
 .app-action {

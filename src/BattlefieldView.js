@@ -70,14 +70,14 @@ class BattlefieldView extends Battlefield {
     this.dock.append(ship.div);
 
     if (ship.placed) {
-const cell = this.cells[y][x]
-const cellRect = cell.getBoundingClientRect()
-const rootRect = this.root.getBoundingClientRect();
+      const cell = this.cells[y][x];
+      const cellRect = cell.getBoundingClientRect();
+      const rootRect = this.root.getBoundingClientRect();
 
       ship.div.style.left = `${cellRect.left - rootRect.left}px`;
       ship.div.style.top = `${cellRect.top - rootRect.top}px`;
     } else {
-      ship.setDirection("row")
+      ship.setDirection("row");
       ship.div.style.left = `${ship.startX}px`;
       ship.div.style.top = `${ship.startY}px`;
     }
@@ -85,18 +85,18 @@ const rootRect = this.root.getBoundingClientRect();
     return true;
   }
 
-  removeShip(ship){
-    if (!super.removeShip(ship)){
+  removeShip(ship) {
+    if (!super.removeShip(ship)) {
       return false;
     }
 
-    if(Array.prototype.includes.call(this.dock.children, ship.div)){
-      ship.div.remove()
+    if (Array.prototype.includes.call(this.dock.children, ship.div)) {
+      ship.div.remove();
     }
     return true;
   }
 
-  isUnder ( point ) {
-    return this.isUnderPoint(point, this.root)
+  isUnder(point) {
+    return this.isUnderPoint(point, this.root);
   }
 }

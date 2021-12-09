@@ -16,15 +16,30 @@ class PreparationScene extends Scene {
   draggedOffsetX = 0;
   draggedOffsety = 0;
   init() {
-    const { player } = this.app;
-    for (const { size, direction, startX, startY } of shipDatas) {
-      const ship = new ShipView(size, direction, startX, startY);
-      player.addShip(ship);
-    }
+
+
+    this.randomize = this.randomize.bind(this)
+    this.manually = this.manually.bind(this)
+    this.manually();
   }
   start() {
+    
+      document.querySelectorAll(".app-actions").forEach((element) => element.classList.add("hidden"))
 
+      document.querySelector('[data-scene="preparation"]').classList.remove('hidden')
+
+     const randomizeButton = document.querySelector('[data-active="randomize"]')
+     randomizeButton.addEventListener('click',  this.randomize)
+
+     const manuallyButton = document.querySelector('[data-action="manually"]')
+     manuallyButton.addEventListener('click',  this.manually)
   }
+
+  stop () {
+    const randomizeButton = document.querySelector('[data-active="randomize"]')
+    randomizeButton.removeEventListener('click',  this.randomize)
+  }
+
   update() {
     const { mouse, player } = this.app;
     //клик тянем
@@ -78,8 +93,31 @@ class PreparationScene extends Scene {
     if (this.draggedShip && mouse.delta) {
       this.draggedShip.toggleDirection();
     }
+
+    if (player.complite){
+      
+    }
   }
-  stop() {
-    console.log("stop");
+  randomize() {
+    const { player } = this.app;
+    player.randomize(ShipView)
+
+    for (let i = 0; i < 10; i++){
+      const ship = player.ships[i]
+
+      ship.startX = shipDatas[i].startX
+      ship.startY = shipDatas[i].startY
+    }
+  }
+
+  manually(){
+    const { player } = this.app;
+
+    player.removeAllShips();
+
+    for (const { size, direction, startX, startY } of shipDatas) {
+      const ship = new ShipView(size, direction, startX, startY);
+      player.addShip(ship);
+    }
   }
 }
