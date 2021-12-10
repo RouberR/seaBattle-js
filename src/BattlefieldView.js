@@ -99,4 +99,20 @@ class BattlefieldView extends Battlefield {
   isUnder(point) {
     return this.isUnderPoint(point, this.root);
   }
+
+  addShot(shot){
+    if(!super.addShot(shot)){
+      return false
+    }
+
+    const cell = this.cells[shot.y][shot.x]
+    const cellRect = cell.getBoundingClientRect()
+    const rootRect = this.table.getBoundingClientRect()
+
+
+    this.polygon.append(shot.div)
+    shot.div.style.left = `${cellRect.left - rootRect.left}px`
+    shot.div.style.top = `${cellRect.top - rootRect.top}px`
+    return true
+  }
 }
