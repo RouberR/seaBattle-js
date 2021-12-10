@@ -3,10 +3,11 @@ class BattlefieldView extends Battlefield {
   table = null;
   dock = null;
   polygon = null;
+  showShips = true;
 
   cells = [];
 
-  constructor() {
+  constructor(showShips = true) {
     super();
 
     const root = document.createElement("div");
@@ -21,7 +22,7 @@ class BattlefieldView extends Battlefield {
     const polygon = document.createElement("div");
     polygon.classList.add("battlefield-polygon");
 
-    Object.assign(this, { root, table, dock, polygon });
+    Object.assign(this, { root, table, dock, polygon, showShips });
     // this.root = root
     // this.table = table
     // this.dock = dock
@@ -67,19 +68,22 @@ class BattlefieldView extends Battlefield {
       return false;
     }
 
-    this.dock.append(ship.div);
+    if(this.showShips){
 
-    if (ship.placed) {
-      const cell = this.cells[y][x];
-      const cellRect = cell.getBoundingClientRect();
-      const rootRect = this.root.getBoundingClientRect();
-
-      ship.div.style.left = `${cellRect.left - rootRect.left}px`;
-      ship.div.style.top = `${cellRect.top - rootRect.top}px`;
-    } else {
-      ship.setDirection("row");
-      ship.div.style.left = `${ship.startX}px`;
-      ship.div.style.top = `${ship.startY}px`;
+      this.dock.append(ship.div);
+  
+      if (ship.placed) {
+        const cell = this.cells[y][x];
+        const cellRect = cell.getBoundingClientRect();
+        const rootRect = this.root.getBoundingClientRect();
+  
+        ship.div.style.left = `${cellRect.left - rootRect.left}px`;
+        ship.div.style.top = `${cellRect.top - rootRect.top}px`;
+      } else {
+        ship.setDirection("row");
+        ship.div.style.left = `${ship.startX}px`;
+        ship.div.style.top = `${ship.startY}px`;
+      }
     }
 
     return true;
@@ -113,6 +117,18 @@ class BattlefieldView extends Battlefield {
     this.polygon.append(shot.div)
     shot.div.style.left = `${cellRect.left - rootRect.left}px`
     shot.div.style.top = `${cellRect.top - rootRect.top}px`
+    return true
+  }
+
+  removeShot(shot){
+    if(!super.addShot(shot)){
+      return false
+    }
+
+    if(Array.prototype.includes.call(this.polygon, shot.div)){
+      shot.div.remove()
+    }
+
     return true
   }
 }
