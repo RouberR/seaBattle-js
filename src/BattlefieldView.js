@@ -15,7 +15,6 @@ class BattlefieldView extends Battlefield {
 
     const table = document.createElement("table");
     table.classList.add("battlefield-table");
-    
 
     const dock = document.createElement("div");
     dock.classList.add("battlefield-dock");
@@ -69,15 +68,14 @@ class BattlefieldView extends Battlefield {
       return false;
     }
 
-    if(this.showShips){
-
+    if (this.showShips) {
       this.dock.append(ship.div);
-  
+
       if (ship.placed) {
         const cell = this.cells[y][x];
         const cellRect = cell.getBoundingClientRect();
         const rootRect = this.root.getBoundingClientRect();
-  
+
         ship.div.style.left = `${cellRect.left - rootRect.left}px`;
         ship.div.style.top = `${cellRect.top - rootRect.top}px`;
       } else {
@@ -105,34 +103,30 @@ class BattlefieldView extends Battlefield {
     return this.isUnderPoint(point, this.root);
   }
 
-  addShot(shot){
-    if(!super.addShot(shot)){
-      return false
+  addShot(shot) {
+    if (!super.addShot(shot)) {
+      return false;
     }
 
-    const cell = this.cells[shot.y][shot.x]
-    const cellRect = cell.getBoundingClientRect()
-    const rootRect = this.table.getBoundingClientRect()
+    const cell = this.cells[shot.y][shot.x];
+    const cellRect = cell.getBoundingClientRect();
+    const rootRect = this.table.getBoundingClientRect();
 
-
-    this.polygon.append(shot.div)
-    shot.div.style.left = `${cellRect.left - rootRect.left}px`
-    shot.div.style.top = `${cellRect.top - rootRect.top}px`
-    return true
+    this.polygon.append(shot.div);
+    shot.div.style.left = `${cellRect.left - rootRect.left}px`;
+    shot.div.style.top = `${cellRect.top - rootRect.top}px`;
+    return true;
   }
 
-  removeShot(shot){
-    if(!super.removeShot(shot)){
-      return false
+  removeShot(shot) {
+    if (!super.removeShot(shot)) {
+      return false;
     }
 
-    if(Array.prototype.includes.call(this.polygon.children, shot.div)){
-      shot.div.remove()
+    if (Array.prototype.includes.call(this.polygon.children, shot.div)) {
+      shot.div.remove();
     }
 
-    return true
+    return true;
   }
-
-
-  
 }

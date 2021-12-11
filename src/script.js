@@ -1,10 +1,7 @@
 const app = new App({
-    preparation: PreparationScene,
-    computer:ComputerScene,
-    playerStart:PlayersScene,
+  preparation: PreparationScene,
+  computer: ComputerScene,
+  playerStart: PlayersScene,
 });
 
-app.start("preparation")
-
-
-
+app.start("preparation");

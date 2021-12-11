@@ -11,7 +11,6 @@ const shipDatas = [
   { size: 1, direction: "row", startX: 150, startY: 480 },
 ];
 
-
 class PreparationScene extends Scene {
   draggedShip = null;
   draggedOffsetX = 0;
@@ -26,11 +25,10 @@ class PreparationScene extends Scene {
     this.manually();
   }
   start() {
-    const {player, opponent} = this.app
-    opponent.removeAllShot()
-    player.removeAllShot()
-    player.ships.forEach((ship) => (ship.killed = false))
-
+    const { player, opponent } = this.app;
+    opponent.removeAllShot();
+    player.removeAllShot();
+    player.ships.forEach((ship) => (ship.killed = false));
 
     this.removeEventListeners = [];
     document
@@ -41,14 +39,16 @@ class PreparationScene extends Scene {
       .querySelector('[data-scene="preparation"]')
       .classList.remove("hidden");
 
-   
-
     const randomizeButton = document.querySelector('[data-action="randomize"]');
-    const randomizeButton2 = document.querySelector('[data-action="randomize2"]');
+    const randomizeButton2 = document.querySelector(
+      '[data-action="randomize2"]'
+    );
     const manuallyButton = document.querySelector('[data-action="manually"]');
     const manuallyButton2 = document.querySelector('[data-action="manually2"]');
     const startButton = document.querySelector('[data-computer="play"]');
-    const startPlayerButton = document.querySelector('[data-computer="playPlayer"]');
+    const startPlayerButton = document.querySelector(
+      '[data-computer="playPlayer"]'
+    );
 
     const buttonPlayer1 = document.querySelector('[data-action="player1"]');
     const buttonPlayer2 = document.querySelector('[data-action="player2"]');
@@ -57,20 +57,26 @@ class PreparationScene extends Scene {
       addEventListener(randomizeButton, "click", () => this.randomize("player"))
     );
     this.removeEventListeners.push(
-      addEventListener(randomizeButton2, "click", () => this.randomize("opponent"))
+      addEventListener(randomizeButton2, "click", () =>
+        this.randomize("opponent")
+      )
     );
     this.removeEventListeners.push(
       addEventListener(manuallyButton, "click", () => this.manually("player"))
     );
     this.removeEventListeners.push(
-      addEventListener(manuallyButton2, "click", () => this.manually("opponent"))
+      addEventListener(manuallyButton2, "click", () =>
+        this.manually("opponent")
+      )
     );
     this.removeEventListeners.push(
       addEventListener(startButton, "click", () => this.startComputer("play"))
     );
 
     this.removeEventListeners.push(
-      addEventListener(startPlayerButton, "click", () => this.startPlayer("playPlayer"))
+      addEventListener(startPlayerButton, "click", () =>
+        this.startPlayer("playPlayer")
+      )
     );
 
     this.removeEventListeners.push(
@@ -78,9 +84,10 @@ class PreparationScene extends Scene {
     );
 
     this.removeEventListeners.push(
-      addEventListener(buttonPlayer2, "click", () => this.buttonShow("opponent"))
+      addEventListener(buttonPlayer2, "click", () =>
+        this.buttonShow("opponent")
+      )
     );
-    
   }
 
   stop() {
@@ -93,14 +100,11 @@ class PreparationScene extends Scene {
 
   update() {
     const { mouse, player, opponent } = this.app;
-    
 
-    let mainPlayer = player 
-    if (player.showShips === false){
-      mainPlayer = opponent
-      console.log(mainPlayer)
+    let mainPlayer = player;
+    if (player.showShips === false) {
+      mainPlayer = opponent;
     }
-    
 
     //клик тянем
     if (!this.draggedShip && mouse.left && !mouse.pLeft) {
@@ -165,113 +169,89 @@ class PreparationScene extends Scene {
       document.querySelector('[data-computer="play"]').disabled = true;
       document.querySelector('[data-computer="playPlayer"]').disabled = true;
     }
-
-
-
-
-
-    
   }
 
   buttonShow(players) {
     const { player, opponent } = this.app;
     const hidenPlayer1 = document.querySelector('[data-side="player"]');
     const hidenPlayer2 = document.querySelector('[data-side="opponent"]');
-    if(players === "player"){
-      if ( player.showShips === true){
-        player.showShips = false
+    if (players === "player") {
+      if (player.showShips === true) {
+        player.showShips = false;
         hidenPlayer1.classList.add("battlefield-ed");
+        document
+          .querySelector('[data-action="player1"]')
+          .classList.add("clickButton");
       } else {
-        player.showShips = true
+        player.showShips = true;
         hidenPlayer1.classList.remove("battlefield-ed");
-      
+        document
+          .querySelector('[data-action="player1"]')
+          .classList.remove("clickButton");
       }
-    } else if (players === "opponent"){
-        if ( opponent.showShips === true){
-          opponent.showShips = false
-          hidenPlayer2.classList.add("battlefield-ed");
-        } else {
-          opponent.showShips = true
-          hidenPlayer2.classList.remove("battlefield-ed");
-        
-        }
-    
-  
+    } else if (players === "opponent") {
+      if (opponent.showShips === true) {
+        opponent.showShips = false;
+        hidenPlayer2.classList.add("battlefield-ed");
+        document
+          .querySelector('[data-action="player2"]')
+          .classList.add("clickButton");
+      } else {
+        opponent.showShips = true;
+        hidenPlayer2.classList.remove("battlefield-ed");
+        document
+          .querySelector('[data-action="player2"]')
+          .classList.remove("clickButton");
       }
-    
-    
-    // for (const { size, direction, startX, startY } of matrix) {
-    //   const ship = new ShipView(size, direction, startX, startY);
-    //   console.log(ship)
-    //   player.addShip(ship);
-    // }
-    
+    }
   }
 
   randomize(players) {
     const { player, opponent } = this.app;
-    if(players === "player"){
+    if (players === "player") {
       player.randomize(ShipView);
       for (let i = 0; i < 10; i++) {
         const ship = player.ships[i];
-  
+
         ship.startX = shipDatas[i].startX;
         ship.startY = shipDatas[i].startY;
       }
-    } else if (players === "opponent"){
+    } else if (players === "opponent") {
       opponent.randomize(ShipView);
       for (let i = 0; i < 10; i++) {
         const ship = opponent.ships[i];
-  
+
         ship.startX = shipDatas[i].startX;
         ship.startY = shipDatas[i].startY;
+      }
     }
   }
-
-    
-  }
-
-  
 
   manually(players = "player") {
     const { player, opponent } = this.app;
 
-    if (players === "player"){
+    if (players === "player") {
       player.removeAllShips();
       for (const { size, direction, startX, startY } of shipDatas) {
         const ship = new ShipView(size, direction, startX, startY);
         player.addShip(ship);
       }
-      
-    } else if (players === "opponent"){
+    } else if (players === "opponent") {
       opponent.removeAllShips();
       for (const { size, direction, startX, startY } of shipDatas) {
         const ship = new ShipView(size, direction, startX, startY);
         opponent.addShip(ship);
       }
     }
- 
-
-  
-
-    
-  
   }
 
   startComputer(start) {
-    
-  
     const matrix = this.app.player.matrix;
 
-    
-    // const x = getRandomBetween(1, 10)
-    // const y = getRandomBetween(1, 10)
-    
-    
     this.app.start("computer");
   }
 
-  startPlayer(start){
+  startPlayer(start) {
     const matrix = this.app.player.matrix;
 
     this.app.start("playerStart");

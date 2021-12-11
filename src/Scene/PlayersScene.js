@@ -1,9 +1,9 @@
 class PlayersScene extends Scene {
   playerTurn = true;
-  status = null
+  status = null;
   removeEventListeners = [];
-  init(){
-    this.status = document.querySelector(".battlefield-status")
+  init() {
+    this.status = document.querySelector(".battlefield-status");
   }
   start() {
     document
@@ -13,34 +13,33 @@ class PlayersScene extends Scene {
       .querySelector('[data-scene="computer"]')
       .classList.remove("hidden");
 
-      document
+    document
       .querySelectorAll(".app-actions")
       .forEach((element) => element.classList.add("hidden"));
     document
       .querySelector('[data-scene="computer"]')
       .classList.remove("hidden");
 
-
     this.removeEventListeners = [];
 
+    const gaveupButton = document.querySelector('[data-action="gaveup"]');
+    const againButton = document.querySelector('[data-action="again"]');
 
-    const gaveupButton = document.querySelector('[data-action="gaveup"]')
-    const againButton =  document.querySelector('[data-action="again"]')
-    
-    gaveupButton.classList.remove("hidden")
-    againButton.classList.add("hidden")
+    gaveupButton.classList.remove("hidden");
+    againButton.classList.add("hidden");
 
     this.removeEventListeners.push(
-      addEventListener(gaveupButton, 'click', () => {
-      this.app.start("preparation")
-    }
-    ))
+      addEventListener(gaveupButton, "click", () => {
+        this.app.start("preparation");
+      })
+    );
 
-    this.removeEventListeners.push(addEventListener(againButton, 'click', () => {
-      this.app.start("preparation")}
-    ))
+    this.removeEventListeners.push(
+      addEventListener(againButton, "click", () => {
+        this.app.start("preparation");
+      })
+    );
   }
-
 
   stop() {
     for (const removeEventListener of this.removeEventListeners) {
@@ -53,24 +52,23 @@ class PlayersScene extends Scene {
   update() {
     const { mouse, opponent, player } = this.app;
 
-    const isEnd = opponent.loser || player.loser
-    if(isEnd) {
-      if (opponent.loser){
-        this.status.textContent = "Победил ИГРОК - 1"
+    const isEnd = opponent.loser || player.loser;
+    const cells = opponent.cells.flat();
+    cells.forEach((cell) => cell.classList.remove("battlefield-item__active"));
+    if (isEnd) {
+      if (opponent.loser) {
+        this.status.textContent = "Победил ИГРОК - 1";
       } else {
-        this.status.textContent = "Победил ИГРОК - 2"
+        this.status.textContent = "Победил ИГРОК - 2";
       }
-      document.querySelector('[data-action="gaveup"]').classList.remove("hidden")
-      document.querySelector('[data-action="again"]').classList.add("hidden")
-      return
+      document.querySelector('[data-action="gaveup"]').classList.add("hidden");
+      document
+        .querySelector('[data-action="again"]')
+        .classList.remove("hidden");
+      return;
     }
 
 
-
-
-
-    const cells = opponent.cells.flat();
-    cells.forEach((cell) => cell.classList.remove("battlefield-item__active"));
     if (isUnderPoint(mouse, opponent.table)) {
       const cell = cells.find((cell) => isUnderPoint(mouse, cell));
 
@@ -113,10 +111,10 @@ class PlayersScene extends Scene {
         }
       }
     }
-    if (this.playerTurn){
-      this.status.textContent = "Ход ИГРОКА - 1"
+    if (this.playerTurn) {
+      this.status.textContent = "Ход ИГРОКА - 1";
     } else {
-      this.status.textContent = "Ход ИГРОКА - 2"
+      this.status.textContent = "Ход ИГРОКА - 2";
     }
   }
 }

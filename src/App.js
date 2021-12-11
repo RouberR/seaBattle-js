@@ -8,13 +8,13 @@ class App {
   constructor(scenes = {}) {
     const mouse = new Mouse(document.body);
     const player = new BattlefieldView(true);
-  
+
     const opponent = new BattlefieldView(true);
 
     Object.assign(this, { mouse, player, opponent });
 
     document.querySelector('[data-side="player"]').append(player.root);
-  
+
     document.querySelector('[data-side="opponent"]').append(opponent.root);
 
     for (const [sceneName, SceneClass] of Object.entries(scenes)) {
@@ -30,7 +30,7 @@ class App {
     requestAnimationFrame(() => this.tick());
 
     if (this.activeScene) {
-        this.activeScene.update()
+      this.activeScene.update();
     }
 
     this.mouse.tick();

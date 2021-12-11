@@ -5,13 +5,13 @@ class Battlefield {
   #matrix = null;
   #changed = true;
 
-  get loser () {
-    for (const ship of this.ships){
-      if (!ship.killed){
-        return false
+  get loser() {
+    for (const ship of this.ships) {
+      if (!ship.killed) {
+        return false;
       }
     }
-    return true
+    return true;
   }
 
   get matrix() {
@@ -198,10 +198,11 @@ class Battlefield {
         for (let i = 0; i < ship.size; i++) {
           const cx = ship.x + dx * i;
           const cy = ship.y + dy * i;
-          const shot = this.shots.find(shot => shot.x === cx && shot.y === cy)
+          const shot = this.shots.find(
+            (shot) => shot.x === cx && shot.y === cy
+          );
           shot.setVariant("killed");
         }
-
       }
     }
     this.#changed = true;
@@ -232,7 +233,6 @@ class Battlefield {
 
     for (let size = 4; size >= 1; size--) {
       for (let n = 0; n < 5 - size; n++) {
-        console.log(size);
         const direction = getRandomFrom("row", "column");
         const ship = new ShipClass(size, direction);
 
@@ -246,8 +246,6 @@ class Battlefield {
       }
     }
   }
-
-
 
   clear() {
     this.removeAllShot();
