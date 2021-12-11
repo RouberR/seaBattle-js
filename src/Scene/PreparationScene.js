@@ -11,6 +11,7 @@ const shipDatas = [
   { size: 1, direction: "row", startX: 150, startY: 480 },
 ];
 
+
 class PreparationScene extends Scene {
   draggedShip = null;
   draggedOffsetX = 0;
@@ -34,12 +35,22 @@ class PreparationScene extends Scene {
       .querySelector('[data-scene="preparation"]')
       .classList.remove("hidden");
 
+   
+
     const randomizeButton = document.querySelector('[data-action="randomize"]');
+    const randomizeButton2 = document.querySelector('[data-action="randomize2"]');
     const manuallyButton = document.querySelector('[data-action="manually"]');
     const startButton = document.querySelector('[data-computer="play"]');
+    const startPlayerButton = document.querySelector('[data-computer="playPlayer"]');
+
+    const buttonPlayer1 = document.querySelector('[data-action="player1"]');
+    const buttonPlayer2 = document.querySelector('[data-action="player2"]');
 
     this.removeEventListeners.push(
-      addEventListener(randomizeButton, "click", () => this.randomize())
+      addEventListener(randomizeButton, "click", () => this.randomize("player"))
+    );
+    this.removeEventListeners.push(
+      addEventListener(randomizeButton2, "click", () => this.randomize("opponent"))
     );
     this.removeEventListeners.push(
       addEventListener(manuallyButton, "click", () => this.manually())
@@ -47,7 +58,19 @@ class PreparationScene extends Scene {
     this.removeEventListeners.push(
       addEventListener(startButton, "click", () => this.startComputer("play"))
     );
-    //  startButton.addEventListener("click", () => console.log("click play"))
+
+    this.removeEventListeners.push(
+      addEventListener(startPlayerButton, "click", () => this.startPlayer("playPlayer"))
+    );
+
+    this.removeEventListeners.push(
+      addEventListener(buttonPlayer1, "click", () => this.buttonShow("player"))
+    );
+
+    this.removeEventListeners.push(
+      addEventListener(buttonPlayer2, "click", () => this.buttonShow("opponent"))
+    );
+    
   }
 
   stop() {
@@ -62,10 +85,19 @@ class PreparationScene extends Scene {
   }
 
   update() {
-    const { mouse, player } = this.app;
+    const { mouse, player, opponent } = this.app;
+    
+
+    let mainPlayer = player 
+    if (player.showShips === false){
+      mainPlayer = opponent
+      console.log(mainPlayer)
+    }
+    
+
     //клик тянем
     if (!this.draggedShip && mouse.left && !mouse.pLeft) {
-      const ship = player.ships.find((ship) => ship.isUnder(mouse));
+      const ship = mainPlayer.ships.find((ship) => ship.isUnder(mouse));
 
       if (ship) {
         const shipRect = ship.div.getBoundingClientRect();
@@ -79,7 +111,7 @@ class PreparationScene extends Scene {
     }
     //перетаскивание
     if (mouse.left && this.draggedShip) {
-      const { left, top } = player.root.getBoundingClientRect();
+      const { left, top } = mainPlayer.root.getBoundingClientRect();
       const x = mouse.x - left - this.draggedOffsetX;
       const y = mouse.y - top - this.draggedOffsetY;
       this.draggedShip.div.style.left = `${x}px`;
@@ -91,13 +123,13 @@ class PreparationScene extends Scene {
       this.draggedShip = null;
 
       const { left, top } = ship.div.getBoundingClientRect();
-      const { width, height } = player.cells[0][0].getBoundingClientRect();
+      const { width, height } = mainPlayer.cells[0][0].getBoundingClientRect();
       const point = {
         x: left + width / 2,
         y: top + height / 2,
       };
 
-      const cell = player.cells
+      const cell = mainPlayer.cells
         .flat()
         .find((cell) => isUnderPoint(point, cell));
 
@@ -105,11 +137,11 @@ class PreparationScene extends Scene {
         const x = parseInt(cell.dataset.x);
         const y = parseInt(cell.dataset.y);
 
-        player.removeShip(ship);
-        player.addShip(ship, x, y);
+        mainPlayer.removeShip(ship);
+        mainPlayer.addShip(ship, x, y);
       } else {
-        player.removeShip(ship);
-        player.addShip(ship);
+        mainPlayer.removeShip(ship);
+        mainPlayer.addShip(ship);
       }
     }
 
@@ -119,26 +151,81 @@ class PreparationScene extends Scene {
     }
 
     //visibility buttons
-    if (player.complete) {
+    if (mainPlayer.complete) {
       document.querySelector('[data-computer="play"]').disabled = false;
     } else {
       document.querySelector('[data-computer="play"]').disabled = true;
     }
+
+
+
+
+
+    
   }
-  randomize() {
-    const { player } = this.app;
-    player.randomize(ShipView);
 
-    for (let i = 0; i < 10; i++) {
-      const ship = player.ships[i];
+  buttonShow(players) {
+    const { player, opponent } = this.app;
+    const hidenPlayer1 = document.querySelector('[data-side="player"]');
+    const hidenPlayer2 = document.querySelector('[data-side="opponent"]');
+    if(players === "player"){
+      if ( player.showShips === true){
+        player.showShips = false
+        hidenPlayer1.classList.add("battlefield-ed");
+      } else {
+        player.showShips = true
+        hidenPlayer1.classList.remove("battlefield-ed");
+      
+      }
+    } else if (players === "opponent"){
+        if ( opponent.showShips === true){
+          opponent.showShips = false
+          hidenPlayer2.classList.add("battlefield-ed");
+        } else {
+          opponent.showShips = true
+          hidenPlayer2.classList.remove("battlefield-ed");
+        
+        }
+    
+  
+      }
+    
+    
+    // for (const { size, direction, startX, startY } of matrix) {
+    //   const ship = new ShipView(size, direction, startX, startY);
+    //   console.log(ship)
+    //   player.addShip(ship);
+    // }
+    
+  }
 
-      ship.startX = shipDatas[i].startX;
-      ship.startY = shipDatas[i].startY;
+  randomize(players) {
+    const { player, opponent } = this.app;
+    if(players === "player"){
+      player.randomize(ShipView);
+      for (let i = 0; i < 10; i++) {
+        const ship = player.ships[i];
+  
+        ship.startX = shipDatas[i].startX;
+        ship.startY = shipDatas[i].startY;
+      }
+    } else if (players === "opponent"){
+      opponent.randomize(ShipView);
+      for (let i = 0; i < 10; i++) {
+        const ship = opponent.ships[i];
+  
+        ship.startX = shipDatas[i].startX;
+        ship.startY = shipDatas[i].startY;
     }
   }
 
+    
+  }
+
+  
+
   manually() {
-    const { player } = this.app;
+    const { player, opponent } = this.app;
 
     player.removeAllShips();
 
@@ -146,10 +233,30 @@ class PreparationScene extends Scene {
       const ship = new ShipView(size, direction, startX, startY);
       player.addShip(ship);
     }
+
+    opponent.removeAllShips();
+    for (const { size, direction, startX, startY } of shipDatas) {
+      const ship = new ShipView(size, direction, startX, startY);
+      opponent.addShip(ship);
+    }
   }
 
   startComputer(start) {
-    console.log(start)
+    
+  
+    const matrix = this.app.player.matrix;
+
+    
+    // const x = getRandomBetween(1, 10)
+    // const y = getRandomBetween(1, 10)
+    
+    
     this.app.start("computer");
+  }
+
+  startPlayer(start){
+    const matrix = this.app.player.matrix;
+
+    this.app.start("playerStart");
   }
 }

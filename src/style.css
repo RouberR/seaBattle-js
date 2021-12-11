@@ -35,6 +35,13 @@ body {
   background: #1bd0e770;
 }
 
+.battlefield-ed .battlefield-dock{
+  /* border-collapse: collapse; */
+  border-spacing: 0;
+  background: #4090d0;
+  visibility: hidden;
+}
+
 .battlefield-item {
   position: relative;
   width: 32px;

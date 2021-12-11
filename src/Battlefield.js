@@ -238,6 +238,8 @@ class Battlefield {
     }
   }
 
+
+
   clear() {
     this.removeAllShot();
     this.removeAllShips();

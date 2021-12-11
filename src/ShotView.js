@@ -29,6 +29,7 @@ class ShotView extends Shot {
       } else if(this.variant === "killed"){
         this.div.classList.add("shot-wounded")
           this.div.classList.add("shot-killed")
+  
       }
       return true
   }
