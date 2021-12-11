@@ -5,6 +5,15 @@ class Battlefield {
   #matrix = null;
   #changed = true;
 
+  get loser () {
+    for (const ship of this.ships){
+      if (!ship.killed){
+        return false
+      }
+    }
+    return true
+  }
+
   get matrix() {
     if (!this.#changed) {
       this.#matrix;
@@ -213,7 +222,7 @@ class Battlefield {
     const shots = this.shots.slice();
 
     for (const shot of shots) {
-      this.removeShip(shot);
+      this.removeShot(shot);
     }
     return shots.length;
   }

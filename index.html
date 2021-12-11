@@ -12,15 +12,25 @@
       <div class="app-header">
         <h1 class="app-title">Морской бой</h1>
       </div>
-
+      <div class="text">
+        <h2 >Игрок 1</h2>
+        <h2 >Игрок 2</h2>
+      </div>
+      
       <div class="app-body">
-        <div data-side="player"></div>
+        <div data-side="player">
+          
+        </div>
         <div class="app-menu">
           <div class="app-actions" data-scene="preparation">
-            <button class="app-action" data-computer="playPlayer">играть против друга </button>  
-            <button class="app-action" data-computer="play">играть с ботом</button>       
-            <button class="app-action" data-action="manually">Расставить корабли вручую</button>
+            <button class="app-actionPlay" data-computer="playPlayer">играть против друга </button>  
+            <button class="app-actionPlay" data-computer="play">играть с ботом</button>  
             <div>
+              <button class="app-action" data-action="manually">Расставить корабли вручую</button>
+              <button class="app-action" data-action="manually2">Расставить корабли вручую</button>
+            </div>     
+
+            <div >
 
               <button class="app-action" data-action="randomize">Раставить корабли случайно</button>
               <button class="app-action" data-action="randomize2">Раставить корабли случайно</button>
@@ -30,16 +40,17 @@
               <button class="app-action" data-action="player2">Спрятать</button>
             </div>
    
-                        <!-- <div class="app-action" data-computer="size">
-                          <h4>Размер поля</h4>
-                          <input class="imput-size" maxlength="2" placeholder="x" id="inputX" value="10"/>
-                          <input class="imput-size" maxlength="2" placeholder="y" data-side="y"></input>
-                          
-                        </div> -->
+                  
           </div>
-          <div class="app-action hidden" data-scene="computer">
+          <div class="app-actions hidden" data-scene="computer">
             <div class="battlefield-status">Ваш ход</div>
-            <button class="app-action">Сдаться</button>
+            <button class="app-action" data-action="gaveup">Сдаться</button>
+            <button class="app-action" data-action="again">Играть еще раз</button>
+          </div>
+
+
+          <div>
+            <p></p>
           </div>
         </div>
         <div data-side="opponent"></div>

@@ -26,6 +26,12 @@ class PreparationScene extends Scene {
     this.manually();
   }
   start() {
+    const {player, opponent} = this.app
+    opponent.removeAllShot()
+    player.removeAllShot()
+    player.ships.forEach((ship) => (ship.killed = false))
+
+
     this.removeEventListeners = [];
     document
       .querySelectorAll(".app-actions")
@@ -40,6 +46,7 @@ class PreparationScene extends Scene {
     const randomizeButton = document.querySelector('[data-action="randomize"]');
     const randomizeButton2 = document.querySelector('[data-action="randomize2"]');
     const manuallyButton = document.querySelector('[data-action="manually"]');
+    const manuallyButton2 = document.querySelector('[data-action="manually2"]');
     const startButton = document.querySelector('[data-computer="play"]');
     const startPlayerButton = document.querySelector('[data-computer="playPlayer"]');
 
@@ -53,7 +60,10 @@ class PreparationScene extends Scene {
       addEventListener(randomizeButton2, "click", () => this.randomize("opponent"))
     );
     this.removeEventListeners.push(
-      addEventListener(manuallyButton, "click", () => this.manually())
+      addEventListener(manuallyButton, "click", () => this.manually("player"))
+    );
+    this.removeEventListeners.push(
+      addEventListener(manuallyButton2, "click", () => this.manually("opponent"))
     );
     this.removeEventListeners.push(
       addEventListener(startButton, "click", () => this.startComputer("play"))
@@ -74,9 +84,6 @@ class PreparationScene extends Scene {
   }
 
   stop() {
-    // const randomizeButton = document.querySelector('[data-action="randomize"]')
-    // randomizeButton.removeEventListener('click',  this.randomize)
-
     for (const removeEventListener of this.removeEventListeners) {
       removeEventListener();
     }
@@ -153,8 +160,10 @@ class PreparationScene extends Scene {
     //visibility buttons
     if (mainPlayer.complete) {
       document.querySelector('[data-computer="play"]').disabled = false;
+      document.querySelector('[data-computer="playPlayer"]').disabled = false;
     } else {
       document.querySelector('[data-computer="play"]').disabled = true;
+      document.querySelector('[data-computer="playPlayer"]').disabled = true;
     }
 
 
@@ -224,21 +233,29 @@ class PreparationScene extends Scene {
 
   
 
-  manually() {
+  manually(players = "player") {
     const { player, opponent } = this.app;
 
-    player.removeAllShips();
-
-    for (const { size, direction, startX, startY } of shipDatas) {
-      const ship = new ShipView(size, direction, startX, startY);
-      player.addShip(ship);
+    if (players === "player"){
+      player.removeAllShips();
+      for (const { size, direction, startX, startY } of shipDatas) {
+        const ship = new ShipView(size, direction, startX, startY);
+        player.addShip(ship);
+      }
+      
+    } else if (players === "opponent"){
+      opponent.removeAllShips();
+      for (const { size, direction, startX, startY } of shipDatas) {
+        const ship = new ShipView(size, direction, startX, startY);
+        opponent.addShip(ship);
+      }
     }
+ 
 
-    opponent.removeAllShips();
-    for (const { size, direction, startX, startY } of shipDatas) {
-      const ship = new ShipView(size, direction, startX, startY);
-      opponent.addShip(ship);
-    }
+  
+
+    
+  
   }
 
   startComputer(start) {

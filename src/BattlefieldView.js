@@ -15,6 +15,7 @@ class BattlefieldView extends Battlefield {
 
     const table = document.createElement("table");
     table.classList.add("battlefield-table");
+    
 
     const dock = document.createElement("div");
     dock.classList.add("battlefield-dock");
@@ -121,11 +122,11 @@ class BattlefieldView extends Battlefield {
   }
 
   removeShot(shot){
-    if(!super.addShot(shot)){
+    if(!super.removeShot(shot)){
       return false
     }
 
-    if(Array.prototype.includes.call(this.polygon, shot.div)){
+    if(Array.prototype.includes.call(this.polygon.children, shot.div)){
       shot.div.remove()
     }
 
